@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transfer Tracker</title>
+    <script type="module" crossorigin src="/transfer-tracker/assets/index-CqCi-qS6.js"></script>
+    <link rel="modulepreload" crossorigin href="/transfer-tracker/assets/crests-DJFajd1i.js">
+    <link rel="modulepreload" crossorigin href="/transfer-tracker/assets/coverage-BbvOIaL8.js">
+    <link rel="modulepreload" crossorigin href="/transfer-tracker/assets/fees-WV69VqRQ.js">
+    <link rel="modulepreload" crossorigin href="/transfer-tracker/assets/transfers-BjrHHPzo.js">
+    <link rel="stylesheet" crossorigin href="/transfer-tracker/assets/index-C8bRPnMs.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <h1>Transfer Tracker</h1>
+        <p class="tagline">Football transfer news, with rumors and confirmed deals kept apart.</p>
+        <nav class="view-tabs" aria-label="Sections">
+          <a class="view-tab" href="#transfers" data-view="transfers">Transfers</a>
+          <a class="view-tab" href="#wishlist" data-view="wishlist">Fan wishlist</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="view" id="transfers-view">
+        <section class="intro" aria-labelledby="intro-heading">
+          <h2 class="intro-heading" id="intro-heading">What this app is for</h2>
+          <p>
+            Follow the summer 2026 transfer window for Premier League clubs. Every real-world report
+            links to its source, so you can check it yourself.
+          </p>
+          <p>Start by searching for a player or club, or choose a league and then a club.</p>
+          <p class="intro-key-heading">Two kinds of card, each labelled in words:</p>
+          <ul class="intro-key">
+            <li>
+              <span class="badge badge-real">Real-world report</span>
+              <span>
+                A move reported by a club or by Transfermarkt, with a solid border. Its status says
+                how far it is confirmed: <strong>Official</strong> means the club announced it;
+                <strong>Transfermarkt record</strong> means a transfer database lists it but no club
+                announcement was found.
+              </span>
+            </li>
+            <li>
+              <span class="badge badge-wish">Fan wish · not news</span>
+              <span>
+                Players you would like a club to sign, with a dotted border, kept on the
+                <a href="#wishlist">Fan wishlist</a> tab.
+              </span>
+            </li>
+          </ul>
+          <p class="crest-credit" id="crest-credit">
+            Club crests are the clubs' trademarks, shown only to identify them; no club endorses
+            this app. The images load from Wikipedia and Wikimedia Commons, and each crest links to
+            its file page, which records its copyright and licence. Most are non-free files that
+            Wikipedia uses under its own fair-use rationale, which isn't permission for this app. A
+            dashed "no crest" box means no crest file was found or the image didn't load.
+          </p>
+        </section>
+
+        <form class="controls" id="filters" role="search">
+          <label class="control control-search">
+            <span>Search</span>
+            <input id="search" type="search" placeholder="Player or club name" autocomplete="off" />
+          </label>
+          <label class="control control-status">
+            <span>Status</span>
+            <select id="status">
+              <option value="all">All statuses</option>
+            </select>
+          </label>
+          <label class="control">
+            <span>League</span>
+            <select id="league">
+              <option value="all">All leagues</option>
+            </select>
+          </label>
+          <label class="control">
+            <span>Club</span>
+            <select id="club" disabled>
+              <option value="all">Choose a league first</option>
+            </select>
+          </label>
+          <label class="control control-direction">
+            <span>Direction</span>
+            <select id="direction" disabled>
+              <option value="all">Choose a club first</option>
+              <option value="incoming">Incoming</option>
+              <option value="outgoing">Outgoing</option>
+            </select>
+          </label>
+          <label class="control-toggle">
+            <input id="my-teams-only" type="checkbox" />
+            <span>My teams only</span>
+          </label>
+          <button type="button" class="button button-clear" id="clear-filters">
+            Clear search and filters
+          </button>
+        </form>
+
+        <section class="my-teams" aria-labelledby="my-teams-heading">
+          <h2 class="my-teams-heading" id="my-teams-heading">My teams</h2>
+          <div class="my-teams-list" id="my-teams-list"></div>
+        </section>
+        <p class="save-status" id="save-status" aria-live="polite"></p>
+
+        <p class="hidden-notice" id="hidden-notice" role="status" hidden></p>
+        <section
+          class="club-summary"
+          id="club-summary"
+          aria-labelledby="club-summary-heading"
+          hidden
+        ></section>
+        <div class="coverage-note" id="coverage-note" role="note"></div>
+        <div class="results-bar">
+          <p class="result-count" id="result-count" aria-live="polite"></p>
+          <div class="view-switch" role="group" aria-labelledby="view-switch-label">
+            <span id="view-switch-label">View</span>
+            <button type="button" id="view-cards" aria-pressed="true">Cards</button>
+            <button type="button" id="view-list" aria-pressed="false">List</button>
+          </div>
+        </div>
+        <div class="transfer-sections" id="transfer-list"></div>
+      </div>
+
+      <div class="view" id="wishlist-view" hidden>
+        <div class="wish-banner" role="note">
+          <strong>Fan wishes, not transfer news:</strong> players you would like a club to sign.
+          They are your own picks, saved only in this browser.
+        </div>
+
+        <h2 class="section-heading">Add a player</h2>
+        <form class="wish-form" id="wish-form" novalidate>
+          <div class="control">
+            <label for="wish-player">Player</label>
+            <input
+              id="wish-player"
+              maxlength="60"
+              autocomplete="off"
+              aria-describedby="wish-player-error"
+            />
+            <p class="field-error" id="wish-player-error"></p>
+          </div>
+          <div class="control">
+            <label for="wish-club">Club that should sign them</label>
+            <input
+              id="wish-club"
+              maxlength="60"
+              autocomplete="off"
+              aria-describedby="wish-club-error"
+            />
+            <p class="field-error" id="wish-club-error"></p>
+          </div>
+          <div class="control control-wide">
+            <div class="label-row">
+              <label for="wish-reason">Why?</label>
+              <span class="char-count" id="wish-reason-count" aria-hidden="true">0/200</span>
+            </div>
+            <textarea
+              id="wish-reason"
+              rows="2"
+              maxlength="200"
+              aria-describedby="wish-reason-error"
+            ></textarea>
+            <p class="field-error" id="wish-reason-error"></p>
+          </div>
+          <div class="control-wide">
+            <button class="button" type="submit">Add to wishlist</button>
+          </div>
+        </form>
+        <p class="save-status" id="wish-status" aria-live="polite"></p>
+
+        <h2 class="section-heading" id="wish-list-heading">My wishlist</h2>
+        <section class="transfer-grid" id="wish-list" aria-labelledby="wish-list-heading"></section>
+      </div>
+    </main>
+
+  </body>
+</html>
